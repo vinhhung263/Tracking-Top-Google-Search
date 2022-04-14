@@ -1,4 +1,3 @@
-
 <form action="">
   <label for="keyword">Keyword: </label>
   <input type="text" id="keyword" name="keyword" value="<?=$_GET['keyword']?>"><br><br>
