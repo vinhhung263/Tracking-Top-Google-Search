@@ -17,11 +17,9 @@ if (!empty($_GET['keyword']) && !empty($_GET['domain'])) {
     $input_domain = $_GET['domain'];
     $input_topsearch = ($_GET['topsearch'] == '') ? 50 : $_GET['topsearch'];
     echo '-------------------------------------------<br>';
-
     $indexRank = 0;
     $outputRank = 0;
     $searchUrl = 'https://www.google.co.in/search?q=' . urlencode($input_keyword) . '&ie=utf-8&oe=utf-8&start=';
-
     echo '<strong> Tool Tracking Top Google Search By Domain </strong><br>';
     echo '-------------------------------------------<br>';
     echo 'Keyword: ' . $input_keyword . "<br>";
@@ -32,14 +30,11 @@ if (!empty($_GET['keyword']) && !empty($_GET['domain'])) {
         $htmlData = file_get_html($searchUrl . ($i * 10));
         foreach ($htmlData->find('a') as $element) {
             $linkTopSearch = $element->href;
-
             if (strpos($linkTopSearch, 'url?') !== false) {
                 if (isset($element->children(0)->innertext)) {
                     $innertext = $element->children(0)->innertext;
-
                     if (strpos($innertext, '<div') !== false) {
                         $indexRank = $indexRank + 1;
-
                         if (strpos($linkTopSearch, $input_domain) !== false) {
                             $outputRank = $indexRank;
                             echo 'Result: Top ' . $outputRank . "<br>";
