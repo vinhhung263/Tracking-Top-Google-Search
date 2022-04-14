@@ -8,20 +8,15 @@
   <input type="submit" value="Submit">
 </form>
 
-
 <?php
-$starttime = microtime(true);
 require_once("simple_html_dom.php");
+$starttime = microtime(true);
 
 if(!empty($_GET['keyword']) && !empty($_GET['domain'])){
-
-//Input
 $input_keyword = $_GET['keyword'];
 $input_domain = $_GET['domain'];
 $input_topsearch = ($_GET['topsearch'] == '') ? 50 : $_GET['topsearch'] ;
 echo '-------------------------------------------<br>';
-
-
 
 $index_rank = 0;
 $output_rank = 0;
@@ -33,22 +28,19 @@ echo 'Keyword: ' . $input_keyword . "<br>";
 echo 'Domain: ' . $input_domain . "<br>";
 echo 'Top search: ' . $input_topsearch . "<br>";
 
-
 for($i = 0;$i<($input_topsearch/10);$i++){
     //Get Data from each page
     $htmlData = file_get_html($search_url . ($i*10));
     //Check all link of each page
     foreach($htmlData->find('a') as $element){
         $linkTopSearch = $element->href;
+      
         if (strpos($linkTopSearch, 'url?') !== false) {
             if(isset($element->children(0)->innertext)){
                 $innertext = $element->children(0)->innertext;
+              
                 if (strpos($innertext, '<div') !== false) {
                     $index_rank = $index_rank + 1;
-                    //echo "Rank ".$index_rank ." <br>";
-                    //echo $innertext . '<br>';
-                    //echo $linkTopSearch . '<br><br><br>';
-
                     //Link that we find
                     if (strpos($linkTopSearch, $input_domain)!== false) {
                         $output_rank = $index_rank;
@@ -67,13 +59,6 @@ for($i = 0;$i<($input_topsearch/10);$i++){
 echo 'Result: Out of Top Search<br>';
 $endtime = microtime(true);
 echo 'Time tracking: ' . round($endtime - $starttime,2) . ' second(s)';
-
 exit;
-
 }
-
-
-
-
-
 ?>
